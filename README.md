@@ -1,90 +1,124 @@
-Projet : Objet connecté avec ESP32 et serveur web
+ Projet IoT : ESP32 + Serveur Web Ubuntu
 
-Dans ce projet, nous allons créer notre propre objet connecté utilisant :
+![ESP32 Banner](https://images.unsplash.com/photo-1518770660439-4636190af475?q=80\&w=1200\&auto=format\&fit=crop)
 
-Une carte ESP32 (microcontrôleur avec WiFi intégré)
-Un site web créé par nous
-Une machine virtuelle Ubuntu servant de serveur
-Des composants électroniques simples : une LED et un buzzer
+Description
 
-Le but est de permettre à l’ESP32 d’envoyer des données au serveur, qui les affichera sur le site web, et de contrôler des composants via des boutons.
+Ce projet consiste à créer un **
+objet connecté (IoT)** utilisant une **carte ESP32**, un **serveur web Ubuntu**, et un **site web dynamique**.
 
-1. Principe de fonctionnement
+L’objectif principal est de permettre à l’ESP32 :
 
-Le fonctionnement global du système est le suivant :
+*  d’envoyer des données à un serveur web
+* de contrôler une LED à distance
+* d’activer un buzzer depuis une interface web
+* d’afficher les données en temps réel sur un site web
 
-L’ESP32 exécute un programme et se connecte au réseau WiFi.
-Il envoie une information vers le serveur web.
-Le serveur reçoit la donnée.
-Le site web affiche la valeur reçue.
 
-Schéma :
-ESP32 → Internet → Serveur Ubuntu → Site Web
 
-2. Pourquoi utiliser une machine virtuelle Ubuntu ?
+#Fonctionnement du système
 
-Un site web a besoin d’un serveur pour fonctionner. Au lieu d’utiliser un serveur physique, nous pouvons créer une machine virtuelle (VM).
+#Architecture globale
 
-C’est un ordinateur installé à l’intérieur de votre PC principal.
-Avantages :
-Aucun risque pour votre PC principal
-Facile à recommencer en cas d’erreur
-Très utilisé dans le monde professionnel
+text
+ESP32 → WiFi → Serveur Ubuntu (Apache + PHP) → Site Web
 
-Logiciels pour créer une VM :
 
-VirtualBox
-VMware
+Schéma du projet
 
-La VM Ubuntu servira de serveur web local.
+![Architecture IoT](https://upload.wikimedia.org/wikipedia/commons/3/3b/Internet_of_Things.jpg)
 
-3. Installation du serveur web
 
-Le serveur web permet :
 
-D’héberger le site
-De recevoir les données envoyées par l’ESP32
+Technologies utilisées
 
-Installation sur Ubuntu :
+| Technologie | Rôle                   |
+| ----------- | ---------------------- |
+| ESP32       | Microcontrôleur WiFi   |
+| Ubuntu VM   | Hébergement du serveur |
+| Apache2     | Serveur Web            |
+| PHP         | Traitement des données |
+| HTML/CSS    | Interface utilisateur  |
+| WiFi        | Communication réseau   |
 
-Ouvrir le terminal et taper :
 
+
+#Machine Virtuelle Ubuntu
+
+Une machine virtuelle Ubuntu est utilisée comme serveur local.
+
+#Avantages
+
+* Aucun risque pour le PC principal
+* Facile à réinstaller
+* Méthode professionnelle
+* Hébergement local du site web
+
+#Logiciels recommandés
+
+* VirtualBox
+* VMware
+
+
+
+# Installation du serveur web
+
+# Installation Apache + PHP
+
+```bash
 sudo apt update
 sudo apt install apache2 php libapache2-mod-php
-Apache : permet d’afficher le site web
-PHP : permet de traiter les informations envoyées
-libapache2-mod-php : relie Apache et PHP
-4. Création du site web
+```
 
-Tous les fichiers du site sont stockés dans :
+# Répertoire du site
+
+```bash
 /var/www/html
+```
 
-Rôle du fichier PHP principal :
+---
 
-Recevoir les données envoyées par l’ESP32
-Les enregistrer pour affichage sur le site
+# Rôle du serveur PHP
 
-Il agit comme un réceptionniste numérique.
+Le fichier PHP agit comme un **réceptionniste numérique**.
 
-5. Tester le matériel étape par étape
+Il permet :
 
-Il est important de tester progressivement les composants pour trouver plus facilement les erreurs :
+* de recevoir les données envoyées par l’ESP32
+* d’enregistrer les informations
+* d’afficher les données sur le site web
+* de contrôler les composants à distance
 
-Tester la LED
-Tester le buzzer
-Ajouter Internet
-Fusionner les programmes
-6. Première étape : Câblage et test de la LED
 
-Rôle de la LED :
-Vérifier que :
 
-L’ESP32 fonctionne
-Le programme est correctement envoyé
-Les sorties GPIO fonctionnent
+# Partie électronique
 
-Programme de test :
+# Composants utilisés
 
+| Composant     | Description                |
+| ------------- | -------------------------- |
+| ESP32         | Carte microcontrôleur WiFi |
+| LED           | Indicateur lumineux        |
+| Résistance    | Protection LED             |
+| Buzzer        | Signal sonore              |
+| Breadboard    | Prototype                  |
+| Câbles Dupont | Connexions                 |
+
+---
+
+# Test de la LED
+
+# Objectif
+
+Vérifier :
+
+* le fonctionnement de l’ESP32
+* les GPIO
+* le téléversement du programme
+
+# Code de test LED
+
+```cpp
 int led = 2;
 
 void setup() {
@@ -92,20 +126,28 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(led, HIGH); // LED allumée
-  delay(1000);             // 1 seconde
-  digitalWrite(led, LOW);  // LED éteinte
-  delay(1000);             // 1 seconde
+  digitalWrite(led, HIGH);
+  delay(1000);
+  digitalWrite(led, LOW);
+  delay(1000);
 }
-7. Deuxième étape : Test du buzzer
+```
 
-Rôle du buzzer :
+# Exemple LED
 
-Produire un son
-Vérifier les signaux électriques et sorties numériques
+![LED ESP32](https://images.unsplash.com/photo-1553406830-ef2513450d76?q=80\&w=1200\&auto=format\&fit=crop)
 
-Programme de test :
 
+
+# Test du buzzer
+
+# Objectif
+
+Tester les sorties numériques et le signal sonore.
+
+# Code de test Buzzer
+
+```cpp
 int buzzer = 15;
 
 void setup() {
@@ -118,73 +160,136 @@ void loop() {
   digitalWrite(buzzer, LOW);
   delay(1000);
 }
+```
 
-Si un son est entendu, le buzzer fonctionne.
+---
 
-8. Connexion WiFi de l’ESP32 et communication avec le serveur
+# Connexion WiFi ESP32
 
-L’ESP32 intègre le WiFi et peut donc communiquer à distance.
+L’ESP32 se connecte au réseau WiFi pour communiquer avec le serveur.
 
-PHP pour recevoir et afficher les valeurs :
+# Étapes
 
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+1. Connexion au WiFi
+2. Envoi des données HTTP
+3. Réception par PHP
+4. Affichage sur le site
 
-$file = __DIR__ . "/valeur.txt";
+---
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['valeur'])) {
-        $valeur = $_POST['valeur'];
-        $result = file_put_contents($file, $valeur);
-        echo ($result === false) ? "Erreur écriture fichier" : "Valeur enregistrée : $valeur";
-    } else {
-        echo "POST reçu mais pas de valeur";
-    }
-    exit;
+# Interface Web
+
+Le site web permet :
+
+* d’afficher la dernière valeur reçue
+* de rafraîchir automatiquement la page
+* d’allumer la LED
+* d’activer le buzzer
+
+# Interface HTML/CSS
+
+```html
+<title>Valeur Arduino</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
 }
 
-if (file_exists($file)) {
-    $valeur = file_get_contents($file);
-    echo "Dernière valeur reçue : " . htmlspecialchars($valeur);
-} else {
-    echo "Aucune valeur reçue pour l'instant.";
+.valeur {
+    font-size: 2em;
+    color: #f87171;
 }
-?>
+</style>
+```
 
-HTML pour le site web :
+# Exemple d’interface Web
 
-Affiche la dernière valeur reçue
-Rafraîchit automatiquement toutes les 5 secondes
-Boutons pour Allumer LED et Allumer Buzzer
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Valeur Arduino</title>
-    <meta http-equiv="refresh" content="5">
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .valeur { font-size: 2em; color: #f87171; } /* rouge néon */
-    </style>
-</head>
-<body>
-    <h1>Dernière valeur reçue de l'Arduino</h1>
-    <div class="valeur"><?php echo $valeur; ?></div>
-    <p>La page se rafraîchit automatiquement toutes les 5 secondes.</p>
-    <button onclick="fetch('http://IP_ESP32/led')">Allumer LED</button>
-    <button onclick="fetch('http://IP_ESP32/son')">Allumer Buzzer</button>
-</body>
-</html>
-9. Programme final combiné
-Allume la LED et active le buzzer
-Envoie les données au serveur
-Les boutons sur le site déclenchent LED ou buzzer
-10. Fonctionnement complet du système
-L’ESP32 démarre
-Il rejoint le WiFi
-Il allume la LED et le buzzer
-Il envoie une donnée au serveur Ubuntu
-PHP enregistre la donnée
-Le site web affiche la valeur
-L’utilisateur peut contrôler LED et buzzer via le site
+![Dashboard Web](https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80\&w=1200\&auto=format\&fit=crop)
+
+---
+
+# Fonctionnement complet
+
+# Cycle du système
+
+```text
+1. L’ESP32 démarre
+2. Connexion au WiFi
+3. Activation LED/Buzzer
+4. Envoi des données au serveur
+5. PHP reçoit les données
+6. Le site affiche les valeurs
+7. L’utilisateur contrôle les composants
+```
+
+---
+
+# Structure du projet
+
+```text
+📁 Projet-IoT
+ ┣ 📂 esp32
+ ┃ ┗ 📜 main.ino
+ ┣ 📂 web
+ ┃ ┣ 📜 index.php
+ ┃ ┣ 📜 style.css
+ ┃ ┗ 📜 save.php
+ ┣ 📜 README.md
+ ┗ 📜 schema.png
+```
+
+---
+
+# Sécurité et améliorations futures
+
+# Améliorations possibles
+
+* Ajouter une base de données MySQL
+* Utiliser MQTT
+* Ajouter un capteur de température
+* Ajouter un système de login
+* Héberger le serveur sur le cloud
+* Ajouter HTTPS
+* Contrôle en temps réel avec WebSocket
+
+---
+
+# Résultat final
+
+Communication ESP32 ↔ Serveur
+
+Affichage temps réel
+
+Contrôle LED et buzzer
+
+ébergement sur Ubuntu
+
+Projet IoT complet
+
+---
+
+# Auteur
+
+# TORIX200
+
+Projet réalisé dans le cadre d’un apprentissage IoT avec ESP32 et serveur web.
+
+---
+
+# ⭐ Soutenir le projet
+
+Si le projet vous plaît :
+
+⭐ Mettez une étoile au dépôt GitHub
+
+🍴 Forkez le projet
+
+📢 Partagez-le
+
+---
+
+# 📜 Licence
+
+Projet open-source sous licence MIT.
